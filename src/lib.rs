@@ -1,11 +1,10 @@
-
-pub fn run<'a>(args: &[String]) -> Result<Vec<u32>, &'static str> {
+pub fn run(args: &[String]) -> Result<Vec<u32>, &'static str> {
     let cards = &args[1];
     let mut cards: Vec<char> = cards.chars().collect();
     game(&mut cards)
 }
 
-fn game(cards:&mut Vec<char>) -> Result<Vec<u32>, &'static str> {
+fn game(cards: &mut Vec<char>) -> Result<Vec<u32>, &'static str> {
     if let Err(_) = validate_zero_island(cards) {
         return Err("Unsolvable!");
     }
@@ -21,7 +20,7 @@ fn game(cards:&mut Vec<char>) -> Result<Vec<u32>, &'static str> {
             cards[i] = '.';
             v = true;
         }
-        if let Ok(solution) = game_helper(&mut result,cards, &mut seen) {
+        if let Ok(solution) = game_helper(&mut result, cards, &mut seen) {
             return Ok(solution);
         }
         if v {
@@ -38,7 +37,6 @@ fn game_helper(
     cards: &mut Vec<char>,
     seen: &mut Vec<Vec<char>>,
 ) -> Result<Vec<u32>, &'static str> {
-
     if has_seen_comb(&cards, &seen) {
         return Err("Seen this combination before!");
     } else {
@@ -60,7 +58,7 @@ fn game_helper(
             if validate_won(&cards) {
                 return Ok(result.clone());
             }
-            if let Ok(solution) = game_helper(result,cards, seen) {
+            if let Ok(solution) = game_helper(result, cards, seen) {
                 return Ok(solution);
             }
             if v {
